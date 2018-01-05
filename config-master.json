@@ -1,0 +1,36 @@
+{
+  "datacenter": "dc1",
+  "client_addr": "127.0.0.1",
+  "addresses": {
+    "http": "0.0.0.0"
+  },
+  "ports": {
+    "http": 8500,
+    "serf_lan": 8301,
+    "serf_wan": 8302,
+    "server": 8300
+  },
+  "advertise_addr": "{{ ansible_default_ipv4.address }}",
+  "dns_config": {
+    "service_ttl": {
+      "*": "10s"
+    }
+  },
+  "bind_addr": "0.0.0.0",
+  "node_name": "{{ inventory_hostname }}",
+  "server": true,
+  "rejoin_after_leave": true,
+  "bootstrap_expect": 3,
+  "start_join": [
+    {% for ip in server_ip.results %}"{{ ip.stdout_lines[0] }}"{% if not loop.last %},{% endif %}{% endfor %}
+  ],
+  "retry_join": [
+    {% for ip in server_ip.results %}"{{ ip.stdout_lines[0] }}"{% if not loop.last %},{% endif %}{% endfor %}
+  ],
+  "domain": "consul-servers",
+  "encrypt": "key",
+  "data_dir": "/consul/consul-dev/data-dir",
+  "disable_remote_exec": false,
+  "log_level": "INFO",
+  "ui": true
+}

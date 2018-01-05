@@ -1,0 +1,9 @@
+{
+  "watches": [
+    {
+      "type": "keyprefix",
+      "prefix": "dgt/dev/",
+      "handler": "docker restart dgt"
+    }
+  ]
+}
